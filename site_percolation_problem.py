@@ -29,7 +29,7 @@ for _ in range(L):
     A.append(current)
 
 # plotting the array
-plt.imshow(A);
+plt.imshow(A)
 plt.colorbar()
 plt.show()
 
