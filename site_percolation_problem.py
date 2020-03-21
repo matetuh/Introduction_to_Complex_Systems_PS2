@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # square lattice side length -> L
 L = 5
 # setting the probability
-p = 0.5
+p = 0.8
 # createing L separate lists o L elements:
 A = [[0]*L for _ in range(L)]
 current = []
@@ -27,16 +27,52 @@ for i in range(L):
             A[i][j] = 0
 
 # plotting the array
-plt.imshow(A)
-plt.colorbar()
-plt.show()
-
+#plt.imshow(A)
+#plt.colorbar()
+#plt.show()
+print("A before: ")
+for i in range(L):
+    print(A[i])
+print("-----------------------------")
 #------------- the burning method ----------------
-B = [[None]*L for _ in range(L)]
+B = [[0]*(L+1) for _ in range(L+1)]
 t = 2
-# Label all occupied cells in the top line with the marker t=2.
-for j in range(L):
-    B[0][j] = t
+# 1.Label all occupied cells in the top line with the marker t=2.
+# zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
+# przeanalizwoać wszystkie kierunki N,S,W,E
+for i in range(L):
+    for j in range (L):
+        B[i][j] = A[i][j]
+# ustawienie dla pierwszego rzędu, dla wszystkich zajętych pół, wszstkich wartości na 2
+for j in range(L+1):
+    if B[0][j] == 1:
+        B[0][j] = t
 
-print(B)
-        
+# 2.Go through all the cells and find the cells which have label t.
+for i in range(L):
+    for j in range(L):
+        # dla kolejnych t sprawdzamy 4 kierunki przestrzenne czy pola są zajęte czy wolne
+        if B[i][j] == t:
+            if B[i+1][j] == 1:
+                B[i+1][j] = t + 1
+            elif B[i][j+1] == 1:
+                B[i][j+1] = t + 1
+            elif B[i-1][j] == 1:
+                B[i-1][j] = t + 1
+            elif B[i][j-1] == 1:
+               B[i][j-1] = t + 1
+    t = t + 1
+#print(B)
+
+# zmniejszenie wymiaru macierzy o 1 kolumnę i rząd, przepisanie B na A
+for i in range(L):
+    for j in range(L):
+        A[i][j] = B[i][j]
+
+#plt.imshow(A)
+#plt.colorbar()
+#plt.show()
+
+print("A after: ")
+for i in range(L):
+    print(A[i])
