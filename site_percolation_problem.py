@@ -4,11 +4,12 @@ import numpy as np
 # import pip
 # pip.main(["install","matplotlib"])
 import matplotlib.pyplot as plt
+import matplotlib
 
 # square lattice side length -> L
-L = 5
+L = 10
 # setting the probability
-p = 0.8
+p = 0.7
 # createing L separate lists o L elements:
 A = [[0]*L for _ in range(L)]
 current = []
@@ -48,6 +49,12 @@ for j in range(L+1):
     if B[0][j] == 1:
         B[0][j] = t
 
+print("--------------------")
+print("B:")
+for i in range(L+1):
+    print(B[i])
+print("-----------------------")
+
 # 2.Go through all the cells and find the cells which have label t.
 for i in range(L):
     for j in range(L):
@@ -55,11 +62,11 @@ for i in range(L):
         if B[i][j] == t:
             if B[i+1][j] == 1:
                 B[i+1][j] = t + 1
-            elif B[i][j+1] == 1:
+            if B[i][j+1] == 1:
                 B[i][j+1] = t + 1
-            elif B[i-1][j] == 1:
+            if B[i-1][j] == 1:
                 B[i-1][j] = t + 1
-            elif B[i][j-1] == 1:
+            if B[i][j-1] == 1:
                B[i][j-1] = t + 1
     t = t + 1
 #print(B)
@@ -76,3 +83,14 @@ for i in range(L):
 print("A after: ")
 for i in range(L):
     print(A[i])
+
+
+fig, ax = plt.subplots()
+im = ax.imshow(A)
+for i in range(L):
+    for j in range(L):
+        text = ax.text(j, i, A[i][j],
+                       ha="center", va="center", color="w")
+ax.set_title("Percolation")
+fig.tight_layout()
+plt.show()
