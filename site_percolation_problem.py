@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 # square lattice side length -> L
-L = 40
+L = 10
 # setting the probability
-p = 0.6
+p = 0.5
 # createing L separate lists o L elements:
 A = [[0]*L for _ in range(L)]
 current = []
@@ -36,7 +36,7 @@ for i in range(L):
     print(A[i])
 print("-----------------------------")
 #------------- the burning method ----------------
-B = [[0]*(L+1) for _ in range(L+1)]
+""" B = [[0]*(L+1) for _ in range(L+1)]
 t = 2
 # 1.Label all occupied cells in the top line with the marker t=2.
 # zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
@@ -114,9 +114,9 @@ else:
     print(d_min-2)
   
 
-
+ """
 # ------------------ Hoshen-Kopelman algorithm -------------------
-
+#plotting the random 1,0 matrix of dimension L and probability seting 1 or 0, p
 """ fig, ax = plt.subplots()
 im = ax.imshow(A)
 for i in range(L):
@@ -125,15 +125,15 @@ for i in range(L):
                        ha="center", va="center", color="w")
 ax.set_title("Percolation")
 fig.tight_layout()
-plt.show() 
-
+plt.show()  """
+#adding row and column at top and left
 C = [[0]*(L+1) for _ in range(L+1)]
 for i in range (L):
     for j in range (L):
         C[i+1][j+1] = A[i][j]
-
+#Hoshen-Kopelman algorithm
 t = 2
-label = np.zeros((L+1,L+1))
+label = [[0]*(L+2) for _ in range(L+2)]
 for i in range(L+1):
     for j in range(L+1):
         if (C[i][j]):
@@ -148,9 +148,29 @@ for i in range(L+1):
                 label[i][j] = label[i-1][j]
             else:
                 label[i][j] = label[i-1][j]
-
+# union functions, which adds clasters which are neighbour at N,S,W,E
+def union(x,y,arr):
+    for i in range (len(arr)):
+        for j in range (len(arr)):
+            if arr[i][j] == y:
+                arr[i][j] = k
+# adding this clasters which are neighbours at N,S,W,E
+for i in range(L+1):
+    for j in range(L+1):
+        if label[i][j] != 0:
+            if label[i+1][j] != 0:
+                union(label[i+1][j],label[i][j],label)
+            if label[i-1][j] != 0:
+                union(label[i-1][j],label[i][j],label)
+            if label[i][j+1] != 0:
+                union(label[i][j+1],label[i][j],label)
+            if label[i][j-1] != 0:
+                union(label[i][j-1],label[i][j],label)
+# deleting first and last row and column
 label = np.delete(label,0,0)
 label = np.delete(label,0,1)
+label = np.delete(label,(len(label)-1),0)
+label = np.delete(label,(len(label)-1),1)
 fig, ax = plt.subplots()
 im = ax.imshow(label)
 for i in range(L):
@@ -160,8 +180,22 @@ for i in range(L):
 ax.set_title("Percolation")
 fig.tight_layout()
 plt.show()
+# counting how big are the clasters
+k = 2
+tabl = []
+suma= 0
+for i in range (L):
+    for j in range (L):
+        if label[i][j] > 0:
+            actual = label[i][j]
+            for i in range (L):
+                for j in range (L):
+                    if label[i][j] == actual:
+                        suma = suma + 1
+            print("number of cluster: ", actual)
+            print("number of items:", sum)
+            tabl.append(sum)
+            actual = 0        
 
-    
         
 
- """
