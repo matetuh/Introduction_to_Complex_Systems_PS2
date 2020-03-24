@@ -153,7 +153,7 @@ def union(x,y,arr):
     for i in range (len(arr)):
         for j in range (len(arr)):
             if arr[i][j] == y:
-                arr[i][j] = k
+                arr[i][j] = x
 # adding this clasters which are neighbours at N,S,W,E
 for i in range(L+1):
     for j in range(L+1):
@@ -181,21 +181,47 @@ ax.set_title("Percolation")
 fig.tight_layout()
 plt.show()
 # counting how big are the clasters
-k = 2
-tabl = []
+#initializing list, where i can count k-cluster elements
+tabl_suma = [0]
+tabl_item = [0]
+#initializing sum value
 suma= 0
+
+# for all elements of array label
 for i in range (L):
     for j in range (L):
-        if label[i][j] > 0:
+        # if the (i,j) element of label array is not on the table_item list and it is greater than zero
+        if label[i][j] not in tabl_item and label[i][j] != 0 :
+            # set the actual value to be label[i][j] value
             actual = label[i][j]
-            for i in range (L):
-                for j in range (L):
-                    if label[i][j] == actual:
+            # now check one more time the label array for k clusters element
+            for m in range (L):
+                for n in range (L):
+                    # if we find the element to be equal to actual value
+                    if label[m][n] == actual:
+                        # we increase the sum value
                         suma = suma + 1
-            print("number of cluster: ", actual)
-            print("number of items:", sum)
-            tabl.append(sum)
-            actual = 0        
+            #and we append to the list the values
+            tabl_item.append(actual)
+            tabl_suma.append(suma)
+            # and we set the sum and actual value to 0, to have no appending errors
+            suma = 0
+        actual = 0 
+#deleting the 0 value from list
+tabl_item.pop(0)
+tabl_suma.pop(0)
+#
+print(tabl_item)
+print(tabl_suma)
+# --------------- counting the average of clusters size s ave
+#sum of clasters size
+clasterSize_sum = sum(tabl_suma)
+# average value of clusters size
+s_ave = clasterSize_sum/(len(tabl_suma))
+print('the average of clusters size: ', s_ave)
+#------------max size of claster----------
+max_claster = max(tabl_suma)
+print('Max claster size: ', max_claster)
 
         
 
