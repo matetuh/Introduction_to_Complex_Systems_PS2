@@ -5,127 +5,113 @@ import numpy as np
 # pip.main(["install","matplotlib"])
 import matplotlib.pyplot as plt
 import matplotlib
-
+#----------------creating the 1,0 array of L and probability of p
 # square lattice side length -> L
 L = 10
 # setting the probability
 p = 0.5
-# createing L separate lists o L elements:
-A = [[0]*L for _ in range(L)]
-current = []
+def create_array(L,p):
+    # createing L separate lists o L elements:
+    A = [[0]*L for _ in range(L)]
+    # creating 2d loopp, to creating 2d array
+    # i - number of rows
+    for i in range(L):
+        # j - number of cols
+        for j in range(L):
+            # if the random number [0,1] is smaller than the set probablity p, than
+            if random.random() < p :
+                # if yes, set i-row and j-col to be occupied
+                A[i][j] = 1
+            else:
+                # if no, set it as empty cell
+                A[i][j] = 0
+    return(A)
+    # square lattice side length -> L
+    #L = 10
+    # setting the probability
+    #p = 0.5
+A = create_array(L,p)
 
-# creating 2d loopp, to creating 2d array
-# i - number of rows
-for i in range(L):
-    # j - number of cols
-    for j in range(L):
-        # if the random number [0,1] is smaller than the set probablity p, than
-        if random.random() < p :
-            # if yes, set i-row and j-col to be occupied
-            A[i][j] = 1
-        else:
-            # if no, set it as empty cell
-            A[i][j] = 0
-
-# plotting the array
-#plt.imshow(A)
-#plt.colorbar()
-#plt.show()
-print("A before: ")
-for i in range(L):
-    print(A[i])
-print("-----------------------------")
 #------------- the burning method ----------------
-""" B = [[0]*(L+1) for _ in range(L+1)]
-t = 2
-# 1.Label all occupied cells in the top line with the marker t=2.
-# zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
-# przeanalizwoać wszystkie kierunki N,S,W,E
-for i in range(L):
-    for j in range (L):
-        B[i][j] = A[i][j]
-# ustawienie dla pierwszego rzędu, dla wszystkich zajętych pół, wszstkich wartości na 2
-for j in range(L+1):
-    if B[0][j] == 1:
-        B[0][j] = t
+#input is the size L of array and the created array A
+def burn_method(L,array):
+    A = array
+    B = [[0]*(L+1) for _ in range(L+1)]
+    t = 2
+    # 1.Label all occupied cells in the top line with the marker t=2.
+    # zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
+    # przeanalizwoać wszystkie kierunki N,S,W,E
+    for i in range(L):
+        for j in range (L):
+            B[i][j] = A[i][j]
+    # ustawienie dla pierwszego rzędu, dla wszystkich zajętych pół, wszstkich wartości na 2
+    for j in range(L+1):
+        if B[0][j] == 1:
+            B[0][j] = t
 
-print("--------------------")
-print("B:")
-for i in range(L+1):
-    print(B[i])
-print("-----------------------")
+    # 2.Go through all the cells and find the cells which have label t.
+    for _ in range(L):
+        for i in range(L):
+            for j in range(L):
+                # dla kolejnych t sprawdzamy 4 kierunki przestrzenne czy pola są zajęte czy wolne
+                if B[i][j] == t:
+                    if B[i+1][j] == 1:
+                        B[i+1][j] = t + 1
+                    if B[i][j+1] == 1:
+                        B[i][j+1] = t + 1
+                    if B[i-1][j] == 1:
+                        B[i-1][j] = t + 1
+                    if B[i][j-1] == 1:
+                        B[i][j-1] = t + 1
+                if B[i][j] > 1:
+                    if B[i+1][j] == 1:
+                        B[i+1][j] = B[i][j] + 1
+                    if B[i][j+1] == 1:
+                        B[i][j+1] = B[i][j] + 1
+                    if B[i-1][j] == 1:  
+                        B[i-1][j] = B[i][j] + 1
+                    if B[i][j-1] == 1:
+                        B[i][j-1] = B[i][j] + 1
+            t = t + 1
 
-# 2.Go through all the cells and find the cells which have label t.
-for _ in range(L):
+    # zmniejszenie wymiaru macierzy B o 1 kolumnę i rząd
     for i in range(L):
         for j in range(L):
-            # dla kolejnych t sprawdzamy 4 kierunki przestrzenne czy pola są zajęte czy wolne
-            if B[i][j] == t:
-                if B[i+1][j] == 1:
-                    B[i+1][j] = t + 1
-                if B[i][j+1] == 1:
-                    B[i][j+1] = t + 1
-                if B[i-1][j] == 1:
-                    B[i-1][j] = t + 1
-                if B[i][j-1] == 1:
-                    B[i][j-1] = t + 1
-            if B[i][j] > 1:
-                if B[i+1][j] == 1:
-                    B[i+1][j] = B[i][j] + 1
-                if B[i][j+1] == 1:
-                    B[i][j+1] = B[i][j] + 1
-                if B[i-1][j] == 1:  
-                    B[i-1][j] = B[i][j] + 1
-                if B[i][j-1] == 1:
-                    B[i][j-1] = B[i][j] + 1
-        t = t + 1
+            A[i][j] = B[i][j]
+    return(A)
 
-
-# zmniejszenie wymiaru macierzy o 1 kolumnę i rząd, przepisanie B na A
-for i in range(L):
-    for j in range(L):
-        A[i][j] = B[i][j]
-
-#plt.imshow(A)
-#plt.colorbar()
-#plt.show()
+B = burn_method(L,A)
+#plot of burning mehtod A
 fig, ax = plt.subplots()
-im = ax.imshow(A)
+im = ax.imshow(B)
 for i in range(L):
     for j in range(L):
-        text = ax.text(j, i, A[i][j],
-                       ha="center", va="center", color="w")
+        text = ax.text(j, i, B[i][j],
+                    ha="center", va="center", color="w")
 ax.set_title("Percolation")
 fig.tight_layout()
 plt.show()
 
-
 #finding the shortest path
-k = 1
-d_min = 10**10
-for i in A[L-1] : 
-    if d_min > i and i > k : 
-        d_min = i 
+def shortest_path(L,array):
+    A = array
+    k = 1
+    d_min = 10**10
+    for i in A[L-1] : 
+        if d_min > i and i > k : 
+            d_min = i 
+    if(d_min ==  10**10):
+        #Path to end of map does not extist
+        return 0
+    else:
+        #Shortest path
+        return (d_min-2)
 
-if(d_min ==  10**10):
-    print('Path to end of map does not extist ')
-else:
-    print('Shortest path: ')
-    print(d_min-2)
-  
+print('The shortest path is:', shortest_path(L,B))
 
- """
+#------------distribution of clasters n(s,p,L)------------------------
+
 # ------------------ Hoshen-Kopelman algorithm -------------------
-#plotting the random 1,0 matrix of dimension L and probability seting 1 or 0, p
-""" fig, ax = plt.subplots()
-im = ax.imshow(A)
-for i in range(L):
-    for j in range(L):
-        text = ax.text(j, i, A[i][j],
-                       ha="center", va="center", color="w")
-ax.set_title("Percolation")
-fig.tight_layout()
-plt.show()  """
 #adding row and column at top and left
 C = [[0]*(L+1) for _ in range(L+1)]
 for i in range (L):
@@ -170,7 +156,7 @@ for i in range(L+1):
 label = np.delete(label,0,0)
 label = np.delete(label,0,1)
 label = np.delete(label,(len(label)-1),0)
-label = np.delete(label,(len(label)-1),1)
+label = np.delete(label,(len(label)),1)
 fig, ax = plt.subplots()
 im = ax.imshow(label)
 for i in range(L):
