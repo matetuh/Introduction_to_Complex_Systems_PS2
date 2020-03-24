@@ -110,104 +110,105 @@ def shortest_path(L,array):
 print('The shortest path is:', shortest_path(L,B))
 
 #------------distribution of clasters n(s,p,L)------------------------
+def n(s,p,L):
+    #adding row and column at top and left
+    A = create_array(L,p)
+    C = [[0]*(L+1) for _ in range(L+1)]
+    for i in range (L):
+        for j in range (L):
+            C[i+1][j+1] = A[i][j]
+    # ------------------ Hoshen-Kopelman algorithm -------------------
+    t = 2
+    label = [[0]*(L+2) for _ in range(L+2)]
+    for i in range(L+1):
+        for j in range(L+1):
+            if (C[i][j]):
+                up = C[i-1][j]
+                left = C[i][j-1]
+                if (up + left == 0):
+                    label[i][j] = t
+                    t = t + 1
+                elif (up == 0 and left != 0):
+                    label[i][j] = label[i][j-1]
+                elif (up != 0 and left == 0):
+                    label[i][j] = label[i-1][j]
+                else:
+                    label[i][j] = label[i-1][j]
+    # union functions, which adds clasters which are neighbour at N,S,W,E
+    def union(x,y,arr):
+        for i in range (len(arr)):
+            for j in range (len(arr)):
+                if arr[i][j] == y:
+                    arr[i][j] = x
+    # adding this clasters which are neighbours at N,S,W,E
+    for i in range(L+1):
+        for j in range(L+1):
+            if label[i][j] != 0:
+                if label[i+1][j] != 0:
+                    union(label[i+1][j],label[i][j],label)
+                if label[i-1][j] != 0:
+                    union(label[i-1][j],label[i][j],label)
+                if label[i][j+1] != 0:
+                    union(label[i][j+1],label[i][j],label)
+                if label[i][j-1] != 0:
+                    union(label[i][j-1],label[i][j],label)
+    # deleting first and last row and column
+    label = np.delete(label,0,0)
+    label = np.delete(label,0,1)
+    label = np.delete(label,(len(label)-1),0)
+    label = np.delete(label,(len(label)),1)
+    # counting how big are the clasters
+    #initializing list, where i can count k-cluster elements
+    tabl_suma = [0]
+    tabl_item = [0]
+    #initializing sum value
+    suma = 0
+    # for all elements of array label
+    for i in range (L):
+        for j in range (L):
+            # if the (i,j) element of label array is not on the table_item list and it is greater than zero
+            if label[i][j] not in tabl_item and label[i][j] != 0 :
+                # set the actual value to be label[i][j] value
+                actual = label[i][j]
+                # now check one more time the label array for k clusters element
+                for m in range (L):
+                    for n in range (L):
+                        # if we find the element to be equal to actual value
+                        if label[m][n] == actual:
+                            # we increase the sum value
+                            suma = suma + 1
+                #and we append to the list the values
+                tabl_item.append(actual)
+                tabl_suma.append(suma)
+                # and we set the sum and actual value to 0, to have no appending errors
+                suma = 0
+            actual = 0 
+    #deleting the 0 value from list
+    tabl_item.pop(0)
+    tabl_suma.pop(0)
+    #
+    #print(tabl_item)
+    #print(tabl_suma)
+    # --------------- counting the average of clusters size s ave
+    #sum of clasters size
+    clasterSize_sum = sum(tabl_suma)
+    # average value of clusters size
+    s_ave = clasterSize_sum/(len(tabl_suma))
+    #print('the average of clusters size: ', s_ave)
+    #------------max size of claster----------
+    max_claster = max(tabl_suma)
+    #print('Max claster size: ', max_claster)
+    #------------return-----------
+    # returning label matrix, s_ave, max_claster
+    return [label, s_ave, max_claster]
+            
 
-# ------------------ Hoshen-Kopelman algorithm -------------------
-#adding row and column at top and left
-C = [[0]*(L+1) for _ in range(L+1)]
-for i in range (L):
-    for j in range (L):
-        C[i+1][j+1] = A[i][j]
-#Hoshen-Kopelman algorithm
-t = 2
-label = [[0]*(L+2) for _ in range(L+2)]
-for i in range(L+1):
-    for j in range(L+1):
-        if (C[i][j]):
-            up = C[i-1][j]
-            left = C[i][j-1]
-            if (up + left == 0):
-                label[i][j] = t
-                t = t + 1
-            elif (up == 0 and left != 0):
-                label[i][j] = label[i][j-1]
-            elif (up != 0 and left == 0):
-                label[i][j] = label[i-1][j]
-            else:
-                label[i][j] = label[i-1][j]
-# union functions, which adds clasters which are neighbour at N,S,W,E
-def union(x,y,arr):
-    for i in range (len(arr)):
-        for j in range (len(arr)):
-            if arr[i][j] == y:
-                arr[i][j] = x
-# adding this clasters which are neighbours at N,S,W,E
-for i in range(L+1):
-    for j in range(L+1):
-        if label[i][j] != 0:
-            if label[i+1][j] != 0:
-                union(label[i+1][j],label[i][j],label)
-            if label[i-1][j] != 0:
-                union(label[i-1][j],label[i][j],label)
-            if label[i][j+1] != 0:
-                union(label[i][j+1],label[i][j],label)
-            if label[i][j-1] != 0:
-                union(label[i][j-1],label[i][j],label)
-# deleting first and last row and column
-label = np.delete(label,0,0)
-label = np.delete(label,0,1)
-label = np.delete(label,(len(label)-1),0)
-label = np.delete(label,(len(label)),1)
 fig, ax = plt.subplots()
-im = ax.imshow(label)
-for i in range(L):
-    for j in range(L):
-        text = ax.text(j, i, int(label[i][j]),
-                       ha="center", va="center", color="w")
-ax.set_title("Percolation")
-fig.tight_layout()
-plt.show()
-# counting how big are the clasters
-#initializing list, where i can count k-cluster elements
-tabl_suma = [0]
-tabl_item = [0]
-#initializing sum value
-suma= 0
-
-# for all elements of array label
-for i in range (L):
-    for j in range (L):
-        # if the (i,j) element of label array is not on the table_item list and it is greater than zero
-        if label[i][j] not in tabl_item and label[i][j] != 0 :
-            # set the actual value to be label[i][j] value
-            actual = label[i][j]
-            # now check one more time the label array for k clusters element
-            for m in range (L):
-                for n in range (L):
-                    # if we find the element to be equal to actual value
-                    if label[m][n] == actual:
-                        # we increase the sum value
-                        suma = suma + 1
-            #and we append to the list the values
-            tabl_item.append(actual)
-            tabl_suma.append(suma)
-            # and we set the sum and actual value to 0, to have no appending errors
-            suma = 0
-        actual = 0 
-#deleting the 0 value from list
-tabl_item.pop(0)
-tabl_suma.pop(0)
-#
-print(tabl_item)
-print(tabl_suma)
-# --------------- counting the average of clusters size s ave
-#sum of clasters size
-clasterSize_sum = sum(tabl_suma)
-# average value of clusters size
-s_ave = clasterSize_sum/(len(tabl_suma))
-print('the average of clusters size: ', s_ave)
-#------------max size of claster----------
-max_claster = max(tabl_suma)
-print('Max claster size: ', max_claster)
-
-        
-
+    im = ax.imshow(label)
+    for i in range(L):
+        for j in range(L):
+            text = ax.text(j, i, int(label[i][j]),
+                        ha="center", va="center", color="w")
+    ax.set_title("Percolation")
+    fig.tight_layout()
+    plt.show()
