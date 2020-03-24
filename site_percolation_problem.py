@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 # square lattice side length -> L
-L = 500
+L = 40
 # setting the probability
 p = 0.6
 # createing L separate lists o L elements:
@@ -78,10 +78,8 @@ for _ in range(L):
                     B[i-1][j] = B[i][j] + 1
                 if B[i][j-1] == 1:
                     B[i][j-1] = B[i][j] + 1
-
         t = t + 1
 
-#print(B)
 
 # zmniejszenie wymiaru macierzy o 1 kolumnę i rząd, przepisanie B na A
 for i in range(L):
@@ -91,25 +89,35 @@ for i in range(L):
 #plt.imshow(A)
 #plt.colorbar()
 #plt.show()
-
-print("A after: ")
-for i in range(L):
-    print(A[i])
-
-
 fig, ax = plt.subplots()
 im = ax.imshow(A)
-#for i in range(L):
-    #for j in range(L):
-        #text = ax.text(j, i, A[i][j],
-                       #ha="center", va="center", color="w")
+for i in range(L):
+    for j in range(L):
+        text = ax.text(j, i, A[i][j],
+                       ha="center", va="center", color="w")
 ax.set_title("Percolation")
 fig.tight_layout()
 plt.show()
-""" 
+
+
+#finding the shortest path
+k = 1
+d_min = 10**10
+for i in A[L-1] : 
+    if d_min > i and i > k : 
+        d_min = i 
+
+if(d_min ==  10**10):
+    print('Path to end of map does not extist ')
+else:
+    print('Shortest path: ')
+    print(d_min-2)
+  
+
+
 # ------------------ Hoshen-Kopelman algorithm -------------------
 
-fig, ax = plt.subplots()
+""" fig, ax = plt.subplots()
 im = ax.imshow(A)
 for i in range(L):
     for j in range(L):
