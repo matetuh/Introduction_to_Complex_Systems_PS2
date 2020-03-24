@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 # square lattice side length -> L
-L = 10
+L = 500
 # setting the probability
-p = 0.5
+p = 0.6
 # createing L separate lists o L elements:
 A = [[0]*L for _ in range(L)]
 current = []
@@ -36,7 +36,7 @@ for i in range(L):
     print(A[i])
 print("-----------------------------")
 #------------- the burning method ----------------
-""" B = [[0]*(L+1) for _ in range(L+1)]
+B = [[0]*(L+1) for _ in range(L+1)]
 t = 2
 # 1.Label all occupied cells in the top line with the marker t=2.
 # zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
@@ -56,25 +56,30 @@ for i in range(L+1):
 print("-----------------------")
 
 # 2.Go through all the cells and find the cells which have label t.
-def func(B, L, t):
+for _ in range(L):
     for i in range(L):
         for j in range(L):
             # dla kolejnych t sprawdzamy 4 kierunki przestrzenne czy pola są zajęte czy wolne
             if B[i][j] == t:
                 if B[i+1][j] == 1:
                     B[i+1][j] = t + 1
-                    func(B, L, t)
                 if B[i][j+1] == 1:
                     B[i][j+1] = t + 1
-                    func(B, L, t)
                 if B[i-1][j] == 1:
                     B[i-1][j] = t + 1
-                    func(B, L, t)
                 if B[i][j-1] == 1:
                     B[i][j-1] = t + 1
-                    func(B, L, t)
+            if B[i][j] > 1:
+                if B[i+1][j] == 1:
+                    B[i+1][j] = B[i][j] + 1
+                if B[i][j+1] == 1:
+                    B[i][j+1] = B[i][j] + 1
+                if B[i-1][j] == 1:  
+                    B[i-1][j] = B[i][j] + 1
+                if B[i][j-1] == 1:
+                    B[i][j-1] = B[i][j] + 1
+
         t = t + 1
-func(B, L, t)
 
 #print(B)
 
@@ -94,14 +99,14 @@ for i in range(L):
 
 fig, ax = plt.subplots()
 im = ax.imshow(A)
-for i in range(L):
-    for j in range(L):
-        text = ax.text(j, i, A[i][j],
-                       ha="center", va="center", color="w")
+#for i in range(L):
+    #for j in range(L):
+        #text = ax.text(j, i, A[i][j],
+                       #ha="center", va="center", color="w")
 ax.set_title("Percolation")
 fig.tight_layout()
-plt.show() """
-
+plt.show()
+""" 
 # ------------------ Hoshen-Kopelman algorithm -------------------
 
 fig, ax = plt.subplots()
@@ -151,3 +156,4 @@ plt.show()
     
         
 
+ """
