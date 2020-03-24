@@ -10,6 +10,8 @@ import matplotlib
 L = 10
 # setting the probability
 p = 0.5
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#-------------- create_array FUNCTION DEFINITION -----------------------------
 def create_array(L,p):
     # createing L separate lists o L elements:
     A = [[0]*L for _ in range(L)]
@@ -30,21 +32,24 @@ def create_array(L,p):
     #L = 10
     # setting the probability
     #p = 0.5
+
+# --------------- THE OUTPUT OF create_array(L,p)-------------------------
 A = create_array(L,p)
 
-#------------- the burning method ----------------
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#-------------- burn_method FUNCTION DEFINITION -----------------------------
 #input is the size L of array and the created array A
 def burn_method(L,array):
     A = array
     B = [[0]*(L+1) for _ in range(L+1)]
     t = 2
-    # 1.Label all occupied cells in the top line with the marker t=2.
-    # zwiększanie macierzy A o jeden rząd i 1 kolumnę, tak żeby możnabyło w kolejnym kroku 
-    # przeanalizwoać wszystkie kierunki N,S,W,E
+    #adding A matrix to larger matrix B
     for i in range(L):
         for j in range (L):
             B[i][j] = A[i][j]
-    # ustawienie dla pierwszego rzędu, dla wszystkich zajętych pół, wszstkich wartości na 2
+    # setting the occupied places in first row to 2
     for j in range(L+1):
         if B[0][j] == 1:
             B[0][j] = t
@@ -79,9 +84,12 @@ def burn_method(L,array):
         for j in range(L):
             A[i][j] = B[i][j]
     return(A)
-
+# --------------- THE OUTPUT OF burn_method(L,A)-------------------------
 B = burn_method(L,A)
-#plot of burning mehtod A
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#------------------plot of burning mehtod A
 fig, ax = plt.subplots()
 im = ax.imshow(B)
 for i in range(L):
@@ -92,7 +100,9 @@ ax.set_title("Percolation")
 fig.tight_layout()
 plt.show()
 
-#finding the shortest path
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#-------------- shortest_path(L,array) FUNCTION DEFINITION -----------------------------
 def shortest_path(L,array):
     A = array
     k = 1
@@ -109,7 +119,8 @@ def shortest_path(L,array):
 
 print('The shortest path is:', shortest_path(L,B))
 
-#------------distribution of clasters n(s,p,L)------------------------
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#-------------- distribution of clasters n(s,p,L) FUNCTION DEFINITION -----------------------------------------------------
 def n(s,p,L):
     #adding row and column at top and left
     A = create_array(L,p)
@@ -198,17 +209,33 @@ def n(s,p,L):
     #------------max size of claster----------
     max_claster = max(tabl_suma)
     #print('Max claster size: ', max_claster)
+    # defining the n of claser of size s
+
+    n = 0
+    for i in range(len(tabl_suma)):
+        if tabl_item[i] == s:
+            n = n + 1
+
     #------------return-----------
     # returning label matrix, s_ave, max_claster
-    return [label, s_ave, max_claster]
-            
+    return [label, s_ave, max_claster, n]
+
+# --------------- THE OUTPUT OF burn_method(L,A)-------------------------
+s = 2
+output = n(s,p,L)
+print('The number of clusters of size ', s, ' is: ', output[3])
+
+
+
+#---------------------------printing method
+""" 
 
 fig, ax = plt.subplots()
-    im = ax.imshow(label)
-    for i in range(L):
-        for j in range(L):
-            text = ax.text(j, i, int(label[i][j]),
-                        ha="center", va="center", color="w")
-    ax.set_title("Percolation")
-    fig.tight_layout()
-    plt.show()
+im = ax.imshow(output[0])
+for i in range(L):
+    for j in range(L):
+        text = ax.text(j, i, int(output[0][i][j]),
+                    ha="center", va="center", color="w")
+ax.set_title("Percolation")
+fig.tight_layout()
+plt.show() """
