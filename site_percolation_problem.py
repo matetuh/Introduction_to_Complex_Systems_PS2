@@ -256,7 +256,6 @@ pk = float(inp_data[3])
 dp = float(inp_data[4])
 
 #---------------------------------------1 -----------------------------------------------
-
 p = p0
 P_flow = 0
 d_min_ave = 0
@@ -268,7 +267,7 @@ s_ave_sum = 0
 actual_row = []
 
 title = ['p ', 'P_flow ', '<d_min> ', '<s_max> ', 's_ave ']
-with open("data_out.txt", "w") as output:
+with open(f"Ave_L{L} T{T} .txt", "w") as output:
     for item in title:
         output.write("%s" % item)
     output.write("\n")
@@ -307,20 +306,21 @@ with open("data_out.txt", "w") as output:
         s_ave_ave = 0
         s_ave_sum = 0
 #------------------------------2 ----------------------------------------
-s = 0
+""" s = 1
 actual = []
-with open("data_out_distribution_clasters.txt", "w") as output:
-    title_cluster = ['s ', 'n(s,p,L) ']
-    actual.append(s)
-    actual.append(n(s,p,L)[2])
-    for item in title_cluster:
-        output.write("%s" % item)
-    output.write("\n")
-    while ( s < T + 1):
-        actual.append(s)
-        actual.append(n(s,p,L)[2])
-        for item in actual:
+prob = [0.2, 0.3, 0.4, 0.5, 0.592746, 0.6, 0.7, 0.8]
+for p in prob:
+    with open(f"Dist_p{p} L{L} T{T}.txt", "w") as output:
+        title_cluster = ['s ', 'n(s,p,L) ']
+        for item in title_cluster:
             output.write("%s" % item)
         output.write("\n")
-        s = s + 1
-        actual = []
+        while ( s < 200):
+            actual.append(s)
+            actual.append(n(s,p,L)[2])
+            for item in actual:
+                output.write("%s " % item)
+            output.write("\n")
+            s = s + 1
+            actual = []
+        s = 1 """
