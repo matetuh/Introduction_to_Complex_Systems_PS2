@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 #----------------creating the 1,0 array of L and probability of p
 # square lattice side length -> L
-L = 10
+#L = 10
 # setting the probability
-p = 0.5
+#p = 0.5
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #-------------- create_array FUNCTION DEFINITION -----------------------------
 def create_array(L,p):
@@ -34,7 +34,7 @@ def create_array(L,p):
     #p = 0.5
 
 # --------------- THE OUTPUT OF create_array(L,p)-------------------------
-A = create_array(L,p)
+#A = create_array(L,p)
 
 
 
@@ -85,12 +85,12 @@ def burn_method(L,array):
             A[i][j] = B[i][j]
     return(A)
 # --------------- THE OUTPUT OF burn_method(L,A)-------------------------
-B = burn_method(L,A)
+#B = burn_method(L,A)
 
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #------------------plot of burning mehtod A
-fig, ax = plt.subplots()
+""" fig, ax = plt.subplots()
 im = ax.imshow(B)
 for i in range(L):
     for j in range(L):
@@ -98,7 +98,7 @@ for i in range(L):
                     ha="center", va="center", color="w")
 ax.set_title("Percolation")
 fig.tight_layout()
-plt.show()
+plt.show() """
 
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -117,7 +117,7 @@ def shortest_path(L,array):
         #Shortest path
         return (d_min-2)
 
-print('The shortest path is:', shortest_path(L,B))
+#print('The shortest path is:', shortest_path(L,B))
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #-------------- distribution of clasters n(s,p,L) FUNCTION DEFINITION -----------------------------------------------------
@@ -221,11 +221,9 @@ def n(s,p,L):
     return [label, s_ave, max_claster, n]
 
 # --------------- THE OUTPUT OF burn_method(L,A)-------------------------
-s = 2
-output = n(s,p,L)
-print('The number of clusters of size ', s, ' is: ', output[3])
-
-
+#s = 2
+#output = n(s,p,L)
+#print('The number of clusters of size ', s, ' is: ', output[3])
 
 #---------------------------printing method
 """ 
@@ -239,3 +237,20 @@ for i in range(L):
 ax.set_title("Percolation")
 fig.tight_layout()
 plt.show() """
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< MAIN <<<<<<<<<<<<<<<<<<<<<<<<
+
+def main():
+    # reading data from input file 'input_simulataion.dat'
+    data = np.genfromtxt('input_simulation.DAT', delimiter=' ')
+    return data[1]
+
+#call main() function
+out_data = main()
+
+# seting parameters with data from file
+L = int(out_data[0])
+T = int(out_data[1])
+p0 = float(out_data[2])
+pk = float(out_data[3])
+dp = float(out_data[4])
