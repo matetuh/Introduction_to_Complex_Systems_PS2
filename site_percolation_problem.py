@@ -242,15 +242,25 @@ plt.show() """
 
 def main():
     # reading data from input file 'input_simulataion.dat'
-    data = np.genfromtxt('input_simulation.DAT', delimiter=' ')
+    data = np.genfromtxt('perc_init.dat', delimiter=' ')
     return data[1]
 
 #call main() function
-out_data = main()
+inp_data = main()
 
 # seting parameters with data from file
-L = int(out_data[0])
-T = int(out_data[1])
-p0 = float(out_data[2])
-pk = float(out_data[3])
-dp = float(out_data[4])
+L = int(inp_data[0])
+T = int(inp_data[1])
+p0 = float(inp_data[2])
+pk = float(inp_data[3])
+dp = float(inp_data[4])
+
+# setting the size of output matrix to save
+out_data = [[None]*5 for _ in range(L)]
+# the first row are the names of columns
+out_data[0] = [r'$p$',
+               r'$P_flow$',
+               r'$<d_min>$',
+               r'$<s_max>$',
+               r'$s_ave$']
+
