@@ -41,8 +41,8 @@ def create_array(L,p):
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #-------------- burn_method FUNCTION DEFINITION -----------------------------
 #input is the size L of array and the created array A
-def burn_method(L,array):
-    A = array
+def burn_method(L,p):
+    A = create_array(L,p)
     B = [[0]*(L+1) for _ in range(L+1)]
     t = 2
     #adding A matrix to larger matrix B
@@ -217,8 +217,8 @@ def n(s,p,L):
             n = n + 1
 
     #------------return-----------
-    # returning label matrix, s_ave, max_claster
-    return [label, s_ave, max_claster, n]
+    # returning !!!add later if needed <- label!!!!!, matrix, s_ave, max_claster
+    return [s_ave, max_claster, n]
 
 # --------------- THE OUTPUT OF burn_method(L,A)-------------------------
 #s = 2
@@ -255,12 +255,72 @@ p0 = float(inp_data[2])
 pk = float(inp_data[3])
 dp = float(inp_data[4])
 
-# setting the size of output matrix to save
-out_data = [[None]*5 for _ in range(L)]
-# the first row are the names of columns
-out_data[0] = [r'$p$',
-               r'$P_flow$',
-               r'$<d_min>$',
-               r'$<s_max>$',
-               r'$s_ave$']
+#---------------------------------------1 -----------------------------------------------
 
+p = p0
+P_flow = 0
+d_min_ave = 0
+d_min_sum = 0
+s_max_ave = 0
+s_max_sum = 0
+s_ave_ave = 0
+s_ave_sum = 0
+actual_row = []
+
+title = ['p ', 'P_flow ', '<d_min> ', '<s_max> ', 's_ave ']
+with open("data_out.txt", "w") as output:
+    for item in title:
+        output.write("%s" % item)
+    output.write("\n")
+
+    while ( p < pk + dp ):
+        for t in range(1,T+1):
+            d_min = shortest_path(L,burn_method(L,p))
+            if d_min > 0:
+                P_flow = P_flow + 1
+            d_min_sum = d_min_sum + d_min
+            # average cluster size s_ave
+            s_max_sum = s_max_sum + n(1,p,L)[1]
+            s_ave_sum = s_ave_sum + n(1,p,L)[0]
+        # <d_min>
+        d_min_ave = d_min_sum / T
+        # <s_max>
+        s_max_ave = s_max_sum / T
+        # <s_ave>
+        s_ave_ave = s_ave_sum / T
+        actual_row.append(p)
+        actual_row.append(P_flow)
+        actual_row.append(d_min_ave)
+        actual_row.append(s_max_ave)
+        actual_row.append(s_ave_ave)
+        p = p + dp
+        print(actual_row)
+        for item in actual_row:
+            output.write("%s " % item)
+        output.write("\n")
+        actual_row = []
+        P_flow = 0
+        d_min_ave = 0
+        d_min_sum = 0
+        s_max_ave = 0
+        s_max_sum = 0
+        s_ave_ave = 0
+        s_ave_sum = 0
+#------------------------------2 ----------------------------------------
+s = 0
+actual = []
+with open("data_out_distribution_clasters.txt", "w") as output:
+    title_cluster = ['s ', 'n(s,p,L) ']
+    actual.append(s)
+    actual.append(n(s,p,L)[2])
+    for item in title_cluster:
+        output.write("%s" % item)
+    output.write("\n")
+    while ( s < T + 1):
+        actual.append(s)
+        actual.append(n(s,p,L)[2])
+        for item in actual:
+            output.write("%s" % item)
+        output.write("\n")
+        s = s + 1
+        actual = []
