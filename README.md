@@ -20,6 +20,15 @@
 L T p0 pk dp
 100 100 0.1 0.95 0.05
 ```
+
+**Where:**
+
+- L: the linear size of the system
+- T: number of trials
+- p0: minimum value ofpin the loop
+- pk: maximum value ofpin the loop
+- dp: step with whichpchanges inside of the loop
+
 ## Results
 
 [![Plot1](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
