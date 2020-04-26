@@ -44,6 +44,23 @@ p P_flow <d_min> <s_max> s_ave
 0.6500000000000001 7699 8.5012 51.4612 19.230289073051157 
 ```
 
+> File: Dist_p0.2 L50 T100.txt
+```python
+s n(s,p,L) 
+0 0.0 
+1 208.69 
+2 51.45 
+3 23.25 
+4 10.92 
+5 5.09 
+6 2.75 
+7 1.58 
+8 0.94 
+9 0.4 
+10 0.2 
+...
+```
+
 ## Results
 
 [![Plot1](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
