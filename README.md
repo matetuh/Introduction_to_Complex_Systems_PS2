@@ -30,7 +30,7 @@ L T p0 pk dp
 - dp: step with whichpchanges inside of the loop
 
 ## Example output
-> File: 
+> File: Ave_L10 T10000 .txt
 ```python
 p P_flow <d_min> <s_max> s_ave 
 0.53 2671 3.1945 26.8633 6.821264192944992 
