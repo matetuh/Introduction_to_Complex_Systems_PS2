@@ -14,11 +14,11 @@
 
 **Plots**
 
-[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
+[![Plot1](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
 
-[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results2.JPG)]()
+[![Plot2](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results2.JPG)]()
 
-[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results3.JPG)]()
+[![Plot3](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results3.JPG)]()
 
 
 
