@@ -2,7 +2,7 @@
 
 > I present the project of Site Percolation on the course Introduction to Complex Systems on Big Data Analytics studies
 
-**Problem description**
+## Problem description
 
 [![IProblem description](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Description.JPG)]()
 
@@ -14,11 +14,11 @@
 
 - The data was generated on Acer Aspire F5-573G laptop with CPU Intel® Core™ i5-7200U @ 2.50GHz 2.70GHz and RAM 4 GB with Windows 10.
 
-**Results**
+## Results
 
 [![Plot1](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
 
-**Plots**
+## Plots
 
 [![Plot2](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results2.JPG)]()
 
