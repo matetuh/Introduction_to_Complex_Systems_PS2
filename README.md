@@ -14,6 +14,12 @@
 
 - The data was generated on Acer Aspire F5-573G laptop with CPU Intel® Core™ i5-7200U @ 2.50GHz 2.70GHz and RAM 4 GB with Windows 10.
 
+## Example input
+> File: perc_init.txt
+```python
+L T p0 pk dp
+100 100 0.1 0.95 0.05
+```
 ## Results
 
 [![Plot1](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
