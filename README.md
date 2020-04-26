@@ -4,4 +4,21 @@
 
 [![IProblem description](https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Description.JPG)]()
 
+> Program info
+
+- The program was written in Python3 language and compiled in Microsoft Visual Studio Code.
+
+> Setup
+
+- The data was generated on Acer Aspire F5-573G laptop with CPU Intel® Core™ i5-7200U @ 2.50GHz 2.70GHz and RAM 4 GB with Windows 10.
+
+**Plots**
+
+[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results1.JPG)]()
+
+[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results2.JPG)]()
+
+[(https://raw.githubusercontent.com/matetuh/Site-Percolation/master/Results3.JPG)]()
+
+
 
